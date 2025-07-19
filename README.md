@@ -14,13 +14,16 @@ A modern, full-stack influencer marketing platform built with Next.js, TypeScrip
 - **📈 Analytics & Reporting** - Performance tracking and insights
 - **🎯 Campaign Management** - Create and manage influencer campaigns
 - **📋 Profile Management** - Complete influencer profiles with verification
+- **🧪 Automated Testing** - Comprehensive Playwright test suite
+- **🐳 Docker Support** - Containerized deployment ready
 
 ### 🏗️ **Technical Stack**
-- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
-- **Backend**: Next.js API Routes, NextAuth.js
+- **Frontend**: Next.js 15.4.1, React 19, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, NextAuth.js v5
 - **Database**: PostgreSQL (NeonDB), Prisma ORM
 - **Authentication**: NextAuth.js with JWT
-- **Payments**: Stripe (configured)
+- **Testing**: Playwright for E2E testing
+- **Containerization**: Docker with multi-stage builds
 - **UI Components**: Lucide React, Headless UI
 - **Styling**: Tailwind CSS with custom components
 
@@ -41,7 +44,9 @@ upfluence-mvp/
 │   ├── components/          # Reusable components
 │   ├── lib/                # Utilities and configurations
 │   └── types/              # TypeScript definitions
-├── .env.example            # Environment variables template
+├── tests/                  # Playwright test suites
+├── Dockerfile             # Container configuration
+├── playwright.config.ts   # Test configuration
 └── README.md              # This file
 ```
 
@@ -49,18 +54,17 @@ upfluence-mvp/
 
 ### 1. **Clone & Install**
 ```bash
+git clone https://github.com/danesaid95/upfluence-mvp.git
 cd upfluence-mvp
 npm install
 ```
 
 ### 2. **Environment Setup**
 ```bash
-# Copy environment template
-cp .env.example .env
-
-# Add your database URL and secrets
-# DATABASE_URL="your-neondb-connection-string"
-# NEXTAUTH_SECRET="your-secret-key"
+# Add your database URL and secrets to .env.local
+DATABASE_URL="your-neondb-connection-string"
+NEXTAUTH_SECRET="your-secret-key"
+NEXTAUTH_URL="http://localhost:3000"
 ```
 
 ### 3. **Database Setup**
@@ -68,8 +72,8 @@ cp .env.example .env
 # Generate Prisma client
 npm run db:generate
 
-# Run migrations
-npm run db:migrate
+# Push schema changes
+npm run db:push
 
 # Seed with dummy data
 npm run db:seed
@@ -77,7 +81,12 @@ npm run db:seed
 
 ### 4. **Start Development**
 ```bash
+# Option 1: Local development
 npm run dev
+
+# Option 2: Docker (recommended)
+docker build -t upfluence-mvp .
+docker run -d -p 3000:3000 --name upfluence-container upfluence-mvp
 ```
 
 Visit `http://localhost:3000` to see the application.
@@ -101,6 +110,64 @@ After seeding, use these credentials to explore the platform:
 - **Password**: `admin123`
 - **Features**: Platform administration, user management
 
+## 🧪 **Testing**
+
+```bash
+# Run all tests
+npm test
+
+# Run tests with UI
+npm run test:ui
+
+# View test reports
+npm run test:report
+```
+
+## 🔧 **Development Commands**
+
+```bash
+# Development
+npm run dev                 # Start development server
+npm run build              # Build for production
+npm run start              # Start production server
+npm run lint               # Run ESLint
+
+# Database
+npm run db:generate        # Generate Prisma client
+npm run db:push           # Push schema changes
+npm run db:seed           # Seed with dummy data
+
+# Testing
+npm test                  # Run Playwright tests
+npm run test:ui           # Run tests with UI
+npm run test:report       # View test reports
+```
+
+## 🌐 **Deployment Ready**
+
+### Docker Deployment
+```bash
+# Build image
+docker build -t upfluence-mvp .
+
+# Run container
+docker run -d -p 3000:3000 --name upfluence-mvp upfluence-mvp
+```
+
+### Cloud Platforms
+- **Vercel**: Connect GitHub repo for automatic deployments
+- **Railway**: Deploy with PostgreSQL database
+- **AWS/DigitalOcean**: Use Docker container
+
+### Environment Variables Required
+```bash
+DATABASE_URL=              # PostgreSQL connection string
+NEXTAUTH_URL=             # Your app URL  
+NEXTAUTH_SECRET=          # Random secret key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=  # Stripe public key (optional)
+STRIPE_SECRET_KEY=        # Stripe secret key (optional)
+```
+
 ## 📊 **Database Schema Overview**
 
 ### Core Models
@@ -111,88 +178,6 @@ After seeding, use these credentials to explore the platform:
 - **Campaigns** - Brand marketing campaigns with targeting
 - **Messages** - Direct communication system
 - **Bookings** - Project management and payments
-
-### Key Features
-- **Role-based permissions** - Different access levels for each user type
-- **Comprehensive metrics** - Follower counts, engagement rates, analytics
-- **Campaign matching** - Advanced filtering and search capabilities
-- **Secure messaging** - Built-in communication system
-- **Payment processing** - Ready for Stripe integration
-
-## 🎯 **User Journeys**
-
-### Brand Journey
-1. **Sign up** → Choose "Brand" account type
-2. **Dashboard** → View campaign performance and metrics  
-3. **Find Influencers** → Search and filter by criteria
-4. **Create Campaigns** → Set budget, requirements, targeting
-5. **Messaging** → Communicate directly with creators
-6. **Analytics** → Track campaign performance
-
-### Influencer Journey  
-1. **Sign up** → Choose "Influencer" account type
-2. **Profile Setup** → Connect social accounts, set rates
-3. **Dashboard** → View earnings, active campaigns
-4. **Opportunities** → Browse and apply to campaigns
-5. **Messaging** → Communicate with brands
-6. **Analytics** → Track profile performance
-
-## 🔧 **Development Commands**
-
-```bash
-# Development
-npm run dev                 # Start development server
-
-# Database
-npm run db:generate        # Generate Prisma client
-npm run db:migrate         # Run database migrations  
-npm run db:push           # Push schema changes
-npm run db:seed           # Seed with dummy data
-
-# Production
-npm run build             # Build for production
-npm run start            # Start production server
-npm run lint             # Run ESLint
-```
-
-## 🌐 **Deployment Ready**
-
-### Vercel (Frontend)
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
-### Railway/Render (Database)
-- Set `DATABASE_URL` environment variable
-- Run migrations: `npm run db:migrate`
-- Seed data: `npm run db:seed`
-
-### Environment Variables Required
-```bash
-DATABASE_URL=              # PostgreSQL connection string
-NEXTAUTH_URL=             # Your app URL  
-NEXTAUTH_SECRET=          # Random secret key
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=  # Stripe public key
-STRIPE_SECRET_KEY=        # Stripe secret key
-STRIPE_WEBHOOK_SECRET=    # Stripe webhook secret
-```
-
-## 🎨 **Customization**
-
-### Branding
-- Update colors in `tailwind.config.js`
-- Replace logo in components and landing page
-- Modify brand name throughout the application
-
-### Features
-- Add new social platforms in `prisma/schema.prisma`
-- Extend user roles and permissions
-- Implement additional payment methods
-- Add more analytics and reporting features
 
 ## 🤝 **Contributing**
 
@@ -205,13 +190,6 @@ STRIPE_WEBHOOK_SECRET=    # Stripe webhook secret
 ## 📄 **License**
 
 This project is licensed under the MIT License.
-
-## 🛟 **Support**
-
-For questions and support:
-- Create an issue on GitHub
-- Check the documentation
-- Review the code comments
 
 ---
 
