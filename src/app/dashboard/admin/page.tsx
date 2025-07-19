@@ -257,23 +257,19 @@ export default function AdminDashboard() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Welcome Section */}
+        {/* Page Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
-              Admin Dashboard
-            </h2>
-            <p className="text-gray-600 mt-1">
-              Platform overview and management tools.
-            </p>
+            <h1 className="text-2xl font-semibold text-gray-900">Admin Dashboard</h1>
+            <p className="text-sm text-gray-500 mt-1">Platform overview and management tools</p>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className={`flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+          <div className="flex items-center space-x-3">
+            <div className={`flex items-center px-3 py-1 rounded text-sm font-medium ${
               stats.systemHealth === "good" 
-                ? "bg-green-100 text-green-800"
+                ? "bg-green-50 text-green-700"
                 : stats.systemHealth === "warning"
-                ? "bg-yellow-100 text-yellow-800"
-                : "bg-red-100 text-red-800"
+                ? "bg-yellow-50 text-yellow-700"
+                : "bg-red-50 text-red-700"
             }`}>
               {stats.systemHealth === "good" ? (
                 <CheckCircle className="h-4 w-4 mr-1" />
@@ -282,168 +278,222 @@ export default function AdminDashboard() {
               )}
               System {stats.systemHealth}
             </div>
+            <button className="upfluence-button upfluence-button-secondary">
+              <Calendar className="mr-2 h-4 w-4" />
+              Last 30 days
+            </button>
           </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {statCards.map((stat) => {
-            const Icon = stat.icon
-            return (
-              <div key={stat.title} className="bg-white p-6 rounded-lg border hover:shadow-lg transition-shadow cursor-pointer">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="bg-indigo-100 p-3 rounded-lg">
-                    <Icon className="h-6 w-6 text-indigo-600" />
-                  </div>
-                  {stat.changeType === "positive" ? (
-                    <ArrowUpRight className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <ArrowDownRight className="h-4 w-4 text-red-500" />
-                  )}
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">
-                    {stat.title}
-                  </p>
-                  <p className="text-2xl font-bold text-gray-900 mb-1">
-                    {stat.value}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {stat.description}
-                  </p>
-                  <div className="flex items-center mt-2">
-                    <span className={`text-sm font-medium ${
-                      stat.changeType === "positive" ? "text-green-600" : "text-red-600"
-                    }`}>
-                      {stat.change}
-                    </span>
-                    <span className="text-sm text-gray-500 ml-1">
-                      vs last month
-                    </span>
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-2 bg-blue-50 rounded-lg">
+                <Users className="h-5 w-5 text-blue-600" />
               </div>
-            )
-          })}
+              <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded">
+                +12%
+              </span>
+            </div>
+            <p className="text-sm text-gray-500 mb-1">Total Users</p>
+            <p className="text-2xl font-semibold text-gray-900">1,247</p>
+            <p className="text-xs text-gray-500 mt-1">156 brands, 1,091 influencers</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-2 bg-purple-50 rounded-lg">
+                <TrendingUp className="h-5 w-5 text-purple-600" />
+              </div>
+              <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded">
+                +8
+              </span>
+            </div>
+            <p className="text-sm text-gray-500 mb-1">Active Campaigns</p>
+            <p className="text-2xl font-semibold text-gray-900">89</p>
+            <p className="text-xs text-gray-500 mt-1">Currently running</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-2 bg-green-50 rounded-lg">
+                <DollarSign className="h-5 w-5 text-green-600" />
+              </div>
+              <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded">
+                +23%
+              </span>
+            </div>
+            <p className="text-sm text-gray-500 mb-1">Platform Revenue</p>
+            <p className="text-2xl font-semibold text-gray-900">$235K</p>
+            <p className="text-xs text-gray-500 mt-1">Total platform revenue</p>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-2 bg-yellow-50 rounded-lg">
+                <Clock className="h-5 w-5 text-yellow-600" />
+              </div>
+              <span className="text-xs font-medium text-yellow-600 bg-yellow-50 px-2 py-1 rounded">
+                High
+              </span>
+            </div>
+            <p className="text-sm text-gray-500 mb-1">Pending Approvals</p>
+            <p className="text-2xl font-semibold text-gray-900">23</p>
+            <p className="text-xs text-gray-500 mt-1">Require admin attention</p>
+          </div>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Recent Activity - 2 columns */}
+          <div className="lg:col-span-2 bg-white rounded-lg border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
+                <Link href="/admin/activity" className="text-sm font-medium text-[#0D0DE6] hover:text-[#0A0AB8]">
+                  View all
+                </Link>
+              </div>
+            </div>
+            <div className="divide-y divide-gray-200">
+              {[
+                { type: "user_signup", text: "New brand 'TechStart' registered", time: "30 min ago", icon: UserCheck, color: "text-green-600", bg: "bg-green-50" },
+                { type: "campaign", text: "Fashion Nova created 'Summer Launch' campaign", time: "45 min ago", icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50" },
+                { type: "payment", text: "Payment of $1,200 processed for Sarah Johnson", time: "2 hours ago", icon: DollarSign, color: "text-green-600", bg: "bg-green-50" },
+                { type: "report", text: "Report filed against campaign #1234", time: "3 hours ago", icon: AlertTriangle, color: "text-yellow-600", bg: "bg-yellow-50" },
+                { type: "approval", text: "Brand verification approved for NewCorp", time: "5 hours ago", icon: CheckCircle, color: "text-green-600", bg: "bg-green-50" },
+              ].map((activity, index) => {
+                const Icon = activity.icon
+                return (
+                  <div key={index} className="p-6 hover:bg-gray-50 transition-colors cursor-pointer">
+                    <div className="flex items-start space-x-3">
+                      <div className={`p-2 rounded-lg ${activity.bg}`}>
+                        <Icon className={`h-4 w-4 ${activity.color}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900">{activity.text}</p>
+                        <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Pending Approvals - 1 column */}
+          <div className="bg-white rounded-lg border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-gray-900">Pending Approvals</h2>
+                <Link href="/admin/approvals" className="text-sm font-medium text-[#0D0DE6] hover:text-[#0A0AB8]">
+                  View all
+                </Link>
+              </div>
+            </div>
+            <div className="p-6 space-y-4">
+              {[
+                { title: "Brand verification for 'NewCorp'", submitter: "NewCorp Team", priority: "high", time: "1 day ago" },
+                { title: "Influencer verification for @lifestyle_guru", submitter: "Emma Smith", priority: "medium", time: "2 days ago" },
+                { title: "Payment dispute - Campaign #5678", submitter: "Mike Chen", priority: "high", time: "6 hours ago" },
+              ].map((item, index) => (
+                <div key={index} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-medium text-gray-900 truncate">{item.title}</h3>
+                    <span className={`text-xs font-medium px-2 py-1 rounded ${
+                      item.priority === 'high' 
+                        ? 'bg-red-50 text-red-700'
+                        : 'bg-yellow-50 text-yellow-700'
+                    }`}>
+                      {item.priority}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-500 mb-2">by {item.submitter}</p>
+                  <p className="text-xs text-gray-400">{item.time}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-lg border p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Link
-              href="/admin/users"
-              className="p-4 border border-indigo-200 rounded-lg hover:bg-indigo-50 text-left transition-colors"
-            >
-              <Users className="h-6 w-6 text-indigo-600 mb-2" />
-              <h4 className="font-medium text-gray-900">Manage Users</h4>
-              <p className="text-sm text-gray-500">View and manage all users</p>
-            </Link>
-            <Link
-              href="/admin/campaigns"
-              className="p-4 border border-indigo-200 rounded-lg hover:bg-indigo-50 text-left transition-colors"
-            >
-              <TrendingUp className="h-6 w-6 text-indigo-600 mb-2" />
-              <h4 className="font-medium text-gray-900">Campaign Monitor</h4>
-              <p className="text-sm text-gray-500">Monitor all campaigns</p>
-            </Link>
-            <Link
-              href="/admin/approvals"
-              className="p-4 border border-indigo-200 rounded-lg hover:bg-indigo-50 text-left transition-colors"
-            >
-              <Shield className="h-6 w-6 text-indigo-600 mb-2" />
-              <h4 className="font-medium text-gray-900">Approvals</h4>
-              <p className="text-sm text-gray-500">Review pending approvals</p>
-            </Link>
-            <Link
-              href="/admin/reports"
-              className="p-4 border border-indigo-200 rounded-lg hover:bg-indigo-50 text-left transition-colors"
-            >
-              <AlertTriangle className="h-6 w-6 text-indigo-600 mb-2" />
-              <h4 className="font-medium text-gray-900">Reports</h4>
-              <p className="text-sm text-gray-500">Handle user reports</p>
-            </Link>
-          </div>
-        </div>
-
-        {/* Recent Activity & Pending Items */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Recent Activity */}
-          <div className="bg-white rounded-lg border">
-            <div className="p-6 border-b">
-              <h3 className="text-lg font-semibold text-gray-900">Recent Activity</h3>
-            </div>
-            <div className="p-6">
-              <div className="space-y-4">
-                {recentActivity.map((activity) => {
-                  const Icon = getActivityIcon(activity.type)
-                  return (
-                    <div key={activity.id} className="flex items-start space-x-3 py-3 border-b last:border-b-0">
-                      <div className={`p-2 rounded-lg ${getSeverityColor(activity.severity)} bg-gray-50`}>
-                        <Icon className="h-4 w-4" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-gray-900">{activity.description}</p>
-                        <p className="text-xs text-gray-500 mt-1">{formatTimeAgo(activity.timestamp)}</p>
-                      </div>
-                    </div>
-                  )
-                })}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Link href="/admin/users" className="bg-white p-6 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors group cursor-pointer">
+            <div className="flex items-center justify-between mb-3">
+              <div className="p-3 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
+                <Users className="h-6 w-6 text-blue-600" />
               </div>
+              <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
             </div>
-          </div>
+            <h3 className="font-semibold text-gray-900 mb-1">Manage Users</h3>
+            <p className="text-sm text-gray-500">View and manage all users</p>
+          </Link>
 
-          {/* Pending Items */}
-          <div className="bg-white rounded-lg border">
-            <div className="p-6 border-b flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">Pending Approvals</h3>
-              <Link 
-                href="/admin/approvals"
-                className="text-sm text-indigo-600 hover:text-indigo-800"
-              >
-                View all
-              </Link>
-            </div>
-            <div className="p-6">
-              <div className="space-y-4">
-                {pendingItems.map((item) => (
-                  <div key={item.id} className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium text-gray-900 text-sm">{item.title}</h4>
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityColor(item.priority)}`}>
-                        {item.priority}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-2">Submitted by {item.submittedBy}</p>
-                    <p className="text-xs text-gray-500">{formatTimeAgo(item.submittedAt)}</p>
-                  </div>
-                ))}
+          <Link href="/admin/campaigns" className="bg-white p-6 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors group cursor-pointer">
+            <div className="flex items-center justify-between mb-3">
+              <div className="p-3 bg-purple-50 rounded-lg group-hover:bg-purple-100 transition-colors">
+                <TrendingUp className="h-6 w-6 text-purple-600" />
               </div>
+              <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
             </div>
-          </div>
+            <h3 className="font-semibold text-gray-900 mb-1">Campaign Monitor</h3>
+            <p className="text-sm text-gray-500">Monitor all campaigns</p>
+          </Link>
+
+          <Link href="/admin/approvals" className="bg-white p-6 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors group cursor-pointer">
+            <div className="flex items-center justify-between mb-3">
+              <div className="p-3 bg-yellow-50 rounded-lg group-hover:bg-yellow-100 transition-colors">
+                <Shield className="h-6 w-6 text-yellow-600" />
+              </div>
+              <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-1">Approvals</h3>
+            <p className="text-sm text-gray-500">Review pending items</p>
+          </Link>
+
+          <Link href="/admin/reports" className="bg-white p-6 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors group cursor-pointer">
+            <div className="flex items-center justify-between mb-3">
+              <div className="p-3 bg-red-50 rounded-lg group-hover:bg-red-100 transition-colors">
+                <AlertTriangle className="h-6 w-6 text-red-600" />
+              </div>
+              <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-1">Reports</h3>
+            <p className="text-sm text-gray-500">Handle user reports</p>
+          </Link>
         </div>
 
         {/* Platform Analytics */}
-        <div className="bg-white rounded-lg border p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Platform Analytics</h3>
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-semibold text-gray-900">Platform Analytics</h2>
+            <Link href="/admin/analytics" className="text-sm font-medium text-[#0D0DE6] hover:text-[#0A0AB8]">
+              View details
+            </Link>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-4 border rounded-lg">
-              <Building className="h-8 w-8 text-indigo-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900">{stats.totalBrands}</p>
+            <div className="text-center p-4 border border-gray-200 rounded-lg">
+              <Building className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+              <p className="text-2xl font-semibold text-gray-900">156</p>
               <p className="text-sm text-gray-500">Active Brands</p>
+              <p className="text-xs text-green-600 mt-1">+8 this month</p>
             </div>
-            <div className="text-center p-4 border rounded-lg">
-              <Users className="h-8 w-8 text-pink-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900">{stats.totalInfluencers}</p>
+            <div className="text-center p-4 border border-gray-200 rounded-lg">
+              <Users className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+              <p className="text-2xl font-semibold text-gray-900">1,091</p>
               <p className="text-sm text-gray-500">Active Influencers</p>
+              <p className="text-xs text-green-600 mt-1">+42 this month</p>
             </div>
-            <div className="text-center p-4 border rounded-lg">
-              <MessageSquare className="h-8 w-8 text-green-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900">{stats.reportsOpen}</p>
+            <div className="text-center p-4 border border-gray-200 rounded-lg">
+              <MessageSquare className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
+              <p className="text-2xl font-semibold text-gray-900">7</p>
               <p className="text-sm text-gray-500">Open Reports</p>
+              <p className="text-xs text-yellow-600 mt-1">Requires attention</p>
             </div>
           </div>
         </div>
+
       </div>
     </DashboardLayout>
   )

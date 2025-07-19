@@ -13,8 +13,18 @@ import {
   Settings, 
   LogOut,
   Bell,
-  Plus
+  Plus,
+  ChevronDown,
+  Menu,
+  X,
+  TrendingUp,
+  Mail,
+  FileText,
+  DollarSign,
+  HelpCircle,
+  Zap
 } from "lucide-react"
+import { useState } from "react"
 
 interface DashboardLayoutProps {
   children: ReactNode
@@ -24,29 +34,35 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { data: session } = useSession()
   const pathname = usePathname()
   const userRole = session?.user?.role
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   const brandNavigation = [
     { name: "Dashboard", href: "/dashboard/brand", icon: Home },
-    { name: "Find Influencers", href: "/dashboard/search", icon: Search },
-    { name: "Campaigns", href: "/dashboard/campaigns", icon: BarChart3 },
-    { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
+    { name: "Influencers", href: "/dashboard/search", icon: Users },
+    { name: "Campaigns", href: "/dashboard/campaigns", icon: TrendingUp },
+    { name: "Contacts", href: "/dashboard/contacts", icon: Mail },
+    { name: "Inbox", href: "/dashboard/messages", icon: MessageSquare },
     { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+    { name: "Payments", href: "/dashboard/payments", icon: DollarSign },
   ]
 
   const influencerNavigation = [
     { name: "Dashboard", href: "/dashboard/influencer", icon: Home },
-    { name: "Opportunities", href: "/dashboard/opportunities", icon: Search },
-    { name: "My Campaigns", href: "/dashboard/campaigns", icon: BarChart3 },
-    { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
+    { name: "Opportunities", href: "/dashboard/opportunities", icon: Zap },
+    { name: "My Campaigns", href: "/dashboard/campaigns", icon: TrendingUp },
+    { name: "Inbox", href: "/dashboard/messages", icon: MessageSquare },
+    { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+    { name: "Earnings", href: "/dashboard/earnings", icon: DollarSign },
     { name: "Profile", href: "/dashboard/profile", icon: Users },
   ]
 
   const adminNavigation = [
     { name: "Dashboard", href: "/dashboard/admin", icon: Home },
     { name: "Users", href: "/admin/users", icon: Users },
-    { name: "Campaigns", href: "/admin/campaigns", icon: BarChart3 },
-    { name: "Reports", href: "/admin/reports", icon: MessageSquare },
+    { name: "Campaigns", href: "/admin/campaigns", icon: TrendingUp },
+    { name: "Reports", href: "/admin/reports", icon: FileText },
     { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+    { name: "Settings", href: "/admin/settings", icon: Settings },
   ]
 
   const getNavigation = () => {
@@ -72,116 +88,117 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--upfluence-bg)' }}>
-      {/* Sidebar */}
-      <div className="fixed inset-y-0 left-0 z-50 w-72 upfluence-sidebar shadow-xl">
-        <div className="flex h-20 items-center px-8 border-b border-gray-100">
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 upfluence-gradient rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">U</span>
-            </div>
-            <span className="text-2xl font-bold upfluence-text-gradient">Upfluence</span>
-          </Link>
-        </div>
-        
-        <nav className="mt-8 px-6">
-          <div className="space-y-2">
-            {navigation.map((item) => {
-              const Icon = item.icon
-              const active = isActive(item.href)
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 ${
-                    active
-                      ? "upfluence-nav-active text-white"
-                      : "text-gray-600 hover:bg-white hover:text-gray-900 hover:shadow-sm"
-                  }`}
-                >
-                  <Icon className="mr-4 h-5 w-5" />
-                  {item.name}
-                </Link>
-              )
-            })}
-          </div>
-        </nav>
-
-        <div className="absolute bottom-0 w-full p-6 border-t border-gray-100">
-          <div className="space-y-2">
-            <Link
-              href="/settings"
-              className="flex items-center px-4 py-3 text-sm font-semibold text-gray-600 rounded-xl hover:bg-white hover:text-gray-900 hover:shadow-sm transition-all duration-200"
-            >
-              <Settings className="mr-4 h-5 w-5" />
-              Settings
-            </Link>
+    <div className="min-h-screen bg-[#F9FAFB]">
+      {/* Top Navigation Bar */}
+      <header className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-[#E5E7EB] z-50">
+        <div className="flex items-center justify-between h-full px-4">
+          {/* Left side */}
+          <div className="flex items-center space-x-4">
             <button
-              onClick={() => signOut({ callbackUrl: "/" })}
-              className="flex w-full items-center px-4 py-3 text-sm font-semibold text-gray-600 rounded-xl hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <LogOut className="mr-4 h-5 w-5" />
-              Sign out
+              <Menu className="h-5 w-5" />
             </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Main content */}
-      <div className="pl-72">
-        {/* Top header */}
-        <header className="bg-white/80 backdrop-blur-lg shadow-sm border-b border-gray-100 sticky top-0 z-40">
-          <div className="flex h-20 items-center justify-between px-8">
-            <div>
-              <h1 className="text-xl font-semibold text-gray-900">
-                {session?.user?.role === "BRAND" 
-                  ? "Brand Dashboard" 
-                  : session?.user?.role === "INFLUENCER"
-                  ? "Creator Dashboard"
-                  : "Admin Dashboard"}
-              </h1>
-            </div>
             
-            <div className="flex items-center space-x-6">
-              {userRole === "BRAND" && (
-                <Link
-                  href="/dashboard/campaigns/new"
-                  className="upfluence-button-primary inline-flex items-center"
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  New Campaign
-                </Link>
-              )}
-              
-              <button className="relative p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-xl transition-all duration-200">
-                <Bell className="h-5 w-5" />
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
-              </button>
-              
-              <div className="flex items-center space-x-4 bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
-                <div className="w-10 h-10 upfluence-gradient rounded-xl flex items-center justify-center">
-                  <span className="text-sm font-bold text-white">
+            <Link href="/" className="flex items-center">
+              <span className="text-xl font-bold text-[#0D0DE6]">Upfluence</span>
+            </Link>
+          </div>
+
+          {/* Right side */}
+          <div className="flex items-center space-x-3">
+            {/* Create New Button */}
+            {userRole === "BRAND" && (
+              <Link
+                href="/dashboard/campaigns/new"
+                className="upfluence-button upfluence-button-primary"
+              >
+                <Plus className="mr-1.5 h-4 w-4" />
+                Create Campaign
+              </Link>
+            )}
+
+            {/* Help */}
+            <button className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+              <HelpCircle className="h-5 w-5" />
+            </button>
+
+            {/* Notifications */}
+            <button className="relative p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+              <Bell className="h-5 w-5" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+
+            {/* User Menu */}
+            <div className="relative">
+              <button className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                <div className="w-8 h-8 bg-[#0D0DE6] rounded-full flex items-center justify-center">
+                  <span className="text-xs font-semibold text-white">
                     {session?.user?.name?.[0]?.toUpperCase()}
                   </span>
                 </div>
-                <div>
-                  <div className="text-sm font-semibold text-gray-900">
-                    {session?.user?.name}
-                  </div>
-                  <div className="text-xs font-medium" style={{ color: 'var(--upfluence-gray)' }}>
-                    {session?.user?.company || session?.user?.role}
-                  </div>
+                <div className="hidden md:block text-left">
+                  <p className="text-sm font-medium text-gray-900">{session?.user?.name}</p>
+                  <p className="text-xs text-gray-500">{session?.user?.company || session?.user?.role}</p>
                 </div>
-              </div>
+                <ChevronDown className="h-4 w-4 text-gray-500" />
+              </button>
             </div>
           </div>
-        </header>
+        </div>
+      </header>
 
-        {/* Page content */}
-        <main className="p-8">
+      {/* Sidebar */}
+      <aside className={`fixed left-0 top-16 bottom-0 bg-white border-r border-[#E5E7EB] transition-all duration-300 z-40 ${
+        sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'
+      }`}>
+        <nav className="p-4 space-y-1">
+          {navigation.map((item) => {
+            const Icon = item.icon
+            const active = isActive(item.href)
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-150 ${
+                  active
+                    ? "bg-[#F3F4F6] text-[#0D0DE6]"
+                    : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                }`}
+              >
+                <Icon className={`mr-3 h-5 w-5 ${active ? 'text-[#0D0DE6]' : 'text-gray-400'}`} />
+                {item.name}
+              </Link>
+            )
+          })}
+        </nav>
+
+        {/* Bottom section */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#E5E7EB]">
+          <Link
+            href="/settings"
+            className="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-150"
+          >
+            <Settings className="mr-3 h-5 w-5 text-gray-400" />
+            Settings
+          </Link>
+          <button
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="w-full flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-150 mt-1"
+          >
+            <LogOut className="mr-3 h-5 w-5 text-gray-400" />
+            Sign out
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className={`pt-16 transition-all duration-300 ${sidebarOpen ? 'pl-64' : 'pl-0'}`}>
+        <div className="p-6">
           {children}
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   )
 }
