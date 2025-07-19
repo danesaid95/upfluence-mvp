@@ -218,17 +218,17 @@ export default function BrandDashboard() {
               Here's what's happening with your campaigns today.
             </p>
           </div>
-          <div className="flex space-x-3">
+          <div className="flex space-x-4">
             <Link
               href="/dashboard/campaigns/new"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+              className="upfluence-button-primary inline-flex items-center"
             >
               <Plus className="mr-2 h-4 w-4" />
               New Campaign
             </Link>
             <Link
               href="/dashboard/search"
-              className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              className="upfluence-button-secondary inline-flex items-center"
             >
               <Search className="mr-2 h-4 w-4" />
               Find Influencers
@@ -238,37 +238,45 @@ export default function BrandDashboard() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {statCards.map((stat) => {
+          {statCards.map((stat, index) => {
             const Icon = stat.icon
+            const gradients = [
+              'linear-gradient(135deg, #0D0DE6 0%, #1E40AF 100%)',
+              'linear-gradient(135deg, #FF4331 0%, #DC2626 100%)', 
+              'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+              'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)'
+            ]
             return (
-              <div key={stat.title} className="bg-white p-6 rounded-lg border hover:shadow-lg transition-shadow cursor-pointer">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600 mb-1">
-                      {stat.title}
-                    </p>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {stat.value}
-                    </p>
-                    <div className="flex items-center mt-2">
-                      {stat.changeType === "positive" ? (
-                        <ArrowUpRight className="h-4 w-4 text-green-500 mr-1" />
-                      ) : (
-                        <ArrowDownRight className="h-4 w-4 text-red-500 mr-1" />
-                      )}
-                      <span className={`text-sm font-medium ${
-                        stat.changeType === "positive" ? "text-green-600" : "text-red-600"
-                      }`}>
-                        {stat.change}
-                      </span>
-                      <span className="text-sm text-gray-500 ml-1">
-                        vs last month
-                      </span>
+              <div key={stat.title} className="upfluence-stat-card hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                <div className="flex items-center justify-between mb-4">
+                  <div 
+                    className="p-3 rounded-xl text-white"
+                    style={{ background: gradients[index % gradients.length] }}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  {stat.changeType === "positive" ? (
+                    <div className="flex items-center text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                      <ArrowUpRight className="h-4 w-4 mr-1" />
+                      <span className="text-sm font-semibold">{stat.change}</span>
                     </div>
-                  </div>
-                  <div className="bg-indigo-100 p-3 rounded-lg">
-                    <Icon className="h-6 w-6 text-indigo-600" />
-                  </div>
+                  ) : (
+                    <div className="flex items-center text-red-600 bg-red-50 px-3 py-1 rounded-full">
+                      <ArrowDownRight className="h-4 w-4 mr-1" />
+                      <span className="text-sm font-semibold">{stat.change}</span>
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-500 mb-2">
+                    {stat.title}
+                  </p>
+                  <p className="text-3xl font-bold text-gray-900 mb-1">
+                    {stat.value}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    vs last month
+                  </p>
                 </div>
               </div>
             )
@@ -276,16 +284,17 @@ export default function BrandDashboard() {
         </div>
 
         {/* Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Recent Campaigns */}
-          <div className="bg-white rounded-lg border">
-            <div className="p-6 border-b flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">Recent Campaigns</h3>
+          <div className="upfluence-card">
+            <div className="p-6 border-b border-gray-50 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-gray-900">Recent Campaigns</h3>
               <Link 
                 href="/dashboard/campaigns"
-                className="text-sm text-indigo-600 hover:text-indigo-800"
+                className="text-sm font-semibold hover:underline"
+                style={{ color: 'var(--upfluence-blue)' }}
               >
-                View all
+                View all →
               </Link>
             </div>
             <div className="p-6">

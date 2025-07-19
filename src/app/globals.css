@@ -1,26 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Upfluence Brand Colors */
+  --upfluence-blue: #0D0DE6;
+  --upfluence-red: #FF4331;
+  --upfluence-gray: #6B7C93;
+  --upfluence-light-gray: #6B7280;
+  --upfluence-bg: #FAFBFC;
+  --upfluence-white: #FFFFFF;
+  --upfluence-dark: #1F2937;
+  --background: #FAFBFC;
+  --foreground: #1F2937;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--upfluence-bg);
+  color: var(--upfluence-dark);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1.6;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Upfluence UI Components */
+.upfluence-gradient {
+  background: linear-gradient(135deg, var(--upfluence-blue) 0%, #1E40AF 100%);
+}
+
+.upfluence-gradient-red {
+  background: linear-gradient(135deg, var(--upfluence-red) 0%, #DC2626 100%);
+}
+
+.upfluence-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #F3F4F6;
+  transition: all 0.3s ease;
+}
+
+.upfluence-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.upfluence-button-primary {
+  background: var(--upfluence-blue);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(13, 13, 230, 0.3);
+}
+
+.upfluence-button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(13, 13, 230, 0.4);
+}
+
+.upfluence-button-secondary {
+  background: transparent;
+  color: var(--upfluence-blue);
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 2px solid var(--upfluence-blue);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upfluence-button-secondary:hover {
+  background: var(--upfluence-blue);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.upfluence-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.upfluence-input:focus {
+  outline: none;
+  border-color: var(--upfluence-blue);
+  box-shadow: 0 0 0 3px rgba(13, 13, 230, 0.1);
+}
+
+.upfluence-nav-active {
+  background: linear-gradient(90deg, var(--upfluence-blue) 0%, #1E40AF 100%);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(13, 13, 230, 0.3);
+}
+
+.upfluence-text-gradient {
+  background: linear-gradient(135deg, var(--upfluence-blue) 0%, var(--upfluence-red) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.upfluence-sidebar {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  border-right: 1px solid #E5E7EB;
+}
+
+.upfluence-stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #F3F4F6;
+  position: relative;
+  overflow: hidden;
+}
+
+.upfluence-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--upfluence-blue) 0%, var(--upfluence-red) 100%);
 }
