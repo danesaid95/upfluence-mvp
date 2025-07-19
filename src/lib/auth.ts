@@ -7,6 +7,7 @@ import { UserRole } from "@prisma/client"
 
 export const authConfig: NextAuthConfig = {
   trustHost: true,
+  secret: process.env.NEXTAUTH_SECRET || "Q6U07yHGLo8ZpjwwcHICcHlPPIjOE4zSZDnE95VkhZI=",
   // Remove adapter to avoid database session issues
   providers: [
     CredentialsProvider({
