@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const userRole = session?.user?.role
 
   const brandNavigation = [
-    { name: "Dashboard", href: "/dashboard", icon: Home },
+    { name: "Dashboard", href: "/dashboard/brand", icon: Home },
     { name: "Find Influencers", href: "/dashboard/search", icon: Search },
     { name: "Campaigns", href: "/dashboard/campaigns", icon: BarChart3 },
     { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
@@ -34,17 +34,38 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   ]
 
   const influencerNavigation = [
-    { name: "Dashboard", href: "/influencer/dashboard", icon: Home },
-    { name: "Opportunities", href: "/influencer/opportunities", icon: Search },
-    { name: "My Campaigns", href: "/influencer/campaigns", icon: BarChart3 },
-    { name: "Messages", href: "/influencer/messages", icon: MessageSquare },
-    { name: "Profile", href: "/influencer/profile", icon: Users },
+    { name: "Dashboard", href: "/dashboard/influencer", icon: Home },
+    { name: "Opportunities", href: "/dashboard/opportunities", icon: Search },
+    { name: "My Campaigns", href: "/dashboard/campaigns", icon: BarChart3 },
+    { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
+    { name: "Profile", href: "/dashboard/profile", icon: Users },
   ]
 
-  const navigation = userRole === "BRAND" ? brandNavigation : influencerNavigation
+  const adminNavigation = [
+    { name: "Dashboard", href: "/dashboard/admin", icon: Home },
+    { name: "Users", href: "/admin/users", icon: Users },
+    { name: "Campaigns", href: "/admin/campaigns", icon: BarChart3 },
+    { name: "Reports", href: "/admin/reports", icon: MessageSquare },
+    { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+  ]
+
+  const getNavigation = () => {
+    switch (userRole) {
+      case "BRAND":
+        return brandNavigation
+      case "INFLUENCER":
+        return influencerNavigation
+      case "ADMIN":
+        return adminNavigation
+      default:
+        return brandNavigation
+    }
+  }
+
+  const navigation = getNavigation()
 
   const isActive = (href: string) => {
-    if (href === "/dashboard" || href === "/influencer/dashboard") {
+    if (href === "/dashboard/brand" || href === "/dashboard/influencer" || href === "/dashboard/admin") {
       return pathname === href
     }
     return pathname.startsWith(href)
@@ -92,7 +113,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               Settings
             </Link>
             <button
-              onClick={() => signOut()}
+              onClick={() => signOut({ callbackUrl: "/" })}
               className="flex w-full items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
               <LogOut className="mr-3 h-5 w-5" />
@@ -109,7 +130,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex h-16 items-center justify-between px-6">
             <div>
               <h1 className="text-xl font-semibold text-gray-900">
-                {session?.user?.role === "BRAND" ? "Brand Dashboard" : "Creator Dashboard"}
+                {session?.user?.role === "BRAND" 
+                  ? "Brand Dashboard" 
+                  : session?.user?.role === "INFLUENCER"
+                  ? "Creator Dashboard"
+                  : "Admin Dashboard"}
               </h1>
             </div>
             
