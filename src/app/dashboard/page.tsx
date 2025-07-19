@@ -12,23 +12,35 @@ export default function DashboardRouter() {
   useEffect(() => {
     if (status === "loading") return // Still loading
 
+    console.log("Dashboard Router - Status:", status)
+    console.log("Dashboard Router - Session:", session)
+    console.log("Dashboard Router - User Role:", session?.user?.role)
+
     if (!session) {
+      console.log("No session, redirecting to signin")
       router.push("/auth/signin")
       return
     }
 
     // Redirect based on user role
-    switch (session.user.role) {
-      case UserRole.BRAND:
+    const userRole = session.user.role
+    console.log("Redirecting based on role:", userRole)
+    
+    switch (userRole) {
+      case "BRAND":
+        console.log("Redirecting to brand dashboard")
         router.push("/dashboard/brand")
         break
-      case UserRole.INFLUENCER:
+      case "INFLUENCER":
+        console.log("Redirecting to influencer dashboard")
         router.push("/dashboard/influencer")
         break
-      case UserRole.ADMIN:
+      case "ADMIN":
+        console.log("Redirecting to admin dashboard")
         router.push("/dashboard/admin")
         break
       default:
+        console.log("Unknown role, redirecting to signin:", userRole)
         router.push("/auth/signin")
     }
   }, [session, status, router])
